@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/subject")
 public class SubjectController {
+
     private final SubjectService subjectService;
 
 //    @Autowired
@@ -25,4 +26,5 @@ public class SubjectController {
     public List<Subject> getAllSubjects(){
         return subjectService.allSubjects();
     }
+
 }
