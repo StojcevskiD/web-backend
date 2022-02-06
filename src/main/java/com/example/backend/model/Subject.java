@@ -1,6 +1,8 @@
 package com.example.backend.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+//@AllArgsConstructor
 public class Subject {
 
     @Id
@@ -25,8 +29,6 @@ public class Subject {
     @ManyToOne
     private Semestar_Type semestar_type;
 
-    public Subject() {
-    }
 
     public Subject(String name, Semestar_Type semestar_type, Year year, File file) {
         this.name = name;

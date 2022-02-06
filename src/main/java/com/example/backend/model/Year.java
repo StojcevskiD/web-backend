@@ -2,12 +2,14 @@ package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Year {
 
     private String name;
@@ -24,7 +26,5 @@ public class Year {
         this.name = name;
     }
 
-    public Year() {
-    }
 }
 
