@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class Subject {
     @ManyToOne
     private Year year;
 
-    @ManyToMany
+    @JsonIgnore
+    @OneToMany (mappedBy = "subject")
     private List<File> files;
 
     @ManyToOne

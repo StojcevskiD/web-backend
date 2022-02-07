@@ -1,15 +1,17 @@
 package com.example.backend.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
-public class File {
+public class Exam_Type {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +19,7 @@ public class File {
 
     private String name;
 
-    private byte[] content;
-
-    @ManyToOne
-    private Subject subject;
-
-    @ManyToOne
-    private Exam_Type exam_type;
+    @JsonIgnore
+    @OneToMany (mappedBy = "exam_type")
+    private List<File> files;
 }
