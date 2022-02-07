@@ -25,7 +25,7 @@ public class Subject {
     private Year year;
 
     @JsonIgnore
-    @OneToMany (mappedBy = "subject")
+    @OneToMany
     private List<File> files;
 
     @ManyToOne

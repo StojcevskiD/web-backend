@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -33,6 +34,12 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
         }
         fileRepository.save(newFile);
+    }
+
+    @Override
+    public List<File> findFilesForSubject(Long id) {
+        Subject sub = subjectService.findById(id);
+        return fileRepository.findAllBySubject(sub);
     }
 }
 
