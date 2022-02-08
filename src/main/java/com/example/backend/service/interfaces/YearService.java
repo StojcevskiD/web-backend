@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface YearService {
     List<Year> allYears();
+    Year findByName(String name);
 }

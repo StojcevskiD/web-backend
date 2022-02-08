@@ -20,4 +20,9 @@ public class YearServiceImpl implements YearService {
     public List<Year> allYears() {
         return yearRepository.findAll();
     }
+
+    @Override
+    public Year findByName(String name) {
+         return yearRepository.findByName(name);
+    }
 }

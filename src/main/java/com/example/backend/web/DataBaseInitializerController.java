@@ -22,8 +22,8 @@ public class DataBaseInitializerController {
     @GetMapping("")
     public void loadDataBase() throws IOException {
         csvReader.readSubjectsFromCSV("year.csv");
-        csvReader.readSubjectsFromCSV("exam_type.csv");
-        csvReader.readSubjectsFromCSV("semestar_type.csv");
+        csvReader.readSubjectsFromCSV("ExamType.csv");
+        csvReader.readSubjectsFromCSV("SemestarType.csv");
         csvReader.readSubjectsFromCSV("subjects.csv");
     }
 }

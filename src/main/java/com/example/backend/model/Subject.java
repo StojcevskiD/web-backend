@@ -29,18 +29,18 @@ public class Subject {
     private List<File> files;
 
     @ManyToOne
-    private Semestar_Type semestar_type;
+    private SemestarType semestarType;
 
 
-    public Subject(String name, Semestar_Type semestar_type, Year year, File file) {
+    public Subject(String name, SemestarType semestarType, Year year, File file) {
         this.name = name;
         this.year = year;
-        this.semestar_type = semestar_type;
+        this.semestarType = semestarType;
         this.files.add(file);
     }
-    public Subject(String name, Semestar_Type semestar_type, Year year) {
+    public Subject(String name, SemestarType semestarType, Year year) {
         this.name = name;
         this.year = year;
-        this.semestar_type = semestar_type;
+        this.semestarType = semestarType;
     }
 }
