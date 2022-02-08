@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Semestar_TypeRepository extends JpaRepository<Semestar_Type,Long> {
+    Semestar_Type findByName(String name);
 }

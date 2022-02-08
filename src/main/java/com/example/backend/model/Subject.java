@@ -38,4 +38,9 @@ public class Subject {
         this.semestar_type = semestar_type;
         this.files.add(file);
     }
+    public Subject(String name, Semestar_Type semestar_type, Year year) {
+        this.name = name;
+        this.year = year;
+        this.semestar_type = semestar_type;
+    }
 }
