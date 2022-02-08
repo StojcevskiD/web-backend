@@ -1,11 +1,11 @@
 package com.example.backend.dataBaseReader;
 
-import com.example.backend.model.Exam_Type;
-import com.example.backend.model.Semestar_Type;
+import com.example.backend.model.ExamType;
+import com.example.backend.model.SemestarType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
-import com.example.backend.repository.Exam_TypeRepository;
-import com.example.backend.repository.Semestar_TypeRepository;
+import com.example.backend.repository.ExamTypeRepository;
+import com.example.backend.repository.SemestarTypeRepository;
 import com.example.backend.repository.SubjectRepository;
 import com.example.backend.repository.YearRepository;
 import org.springframework.stereotype.Component;
@@ -22,16 +22,16 @@ import java.nio.file.Paths;
 public class CSVReader {
 
     private final SubjectRepository subjectRepository;
-    private final Semestar_TypeRepository semestar_typeRepository;
+    private final SemestarTypeRepository semestarTypeRepository;
     private final YearRepository yearRepository;
-    private final Exam_TypeRepository exam_typeRepository;
+    private final ExamTypeRepository examTypeRepository;
 
-    public CSVReader(SubjectRepository subjectRepository, Semestar_TypeRepository semestar_typeRepository,
-                     YearRepository yearRepository, Exam_TypeRepository exam_typeRepository) {
+    public CSVReader(SubjectRepository subjectRepository, SemestarTypeRepository semestarTypeRepository,
+                     YearRepository yearRepository, ExamTypeRepository examTypeRepository) {
         this.subjectRepository = subjectRepository;
-        this.semestar_typeRepository = semestar_typeRepository;
+        this.semestarTypeRepository = semestarTypeRepository;
         this.yearRepository = yearRepository;
-        this.exam_typeRepository = exam_typeRepository;
+        this.examTypeRepository = examTypeRepository;
     }
 
     public void readSubjectsFromCSV(String fileName) throws IOException {
@@ -56,10 +56,10 @@ public class CSVReader {
 
                 if (fileName == "subjects.csv") {
                     createSubject(attributes);
-                } else if (fileName == "semestar_type.csv") {
-                    createSemestar_Type(attributes);
-                } else if (fileName == "exam_type.csv") {
-                    createExam_Type(attributes);
+                } else if (fileName == "SemestarType.csv") {
+                    createSemestarType(attributes);
+                } else if (fileName == "ExamType.csv") {
+                    createExamType(attributes);
                 } else if (fileName == "year.csv") {
                     createYear(attributes);
                 }
@@ -80,12 +80,12 @@ public class CSVReader {
 
         String year = metadata[3];
 
-        Semestar_Type semestar_type = semestar_typeRepository.findByName(semestar);
+        SemestarType semestarType = semestarTypeRepository.findByName(semestar);
 
         Year year1 = yearRepository.findByName(year);
 
         // create and return book of this metadata
-        Subject sub = new Subject(name, semestar_type, year1);
+        Subject sub = new Subject(name, semestarType, year1);
         subjectRepository.save(sub);
     }
 
@@ -95,15 +95,15 @@ public class CSVReader {
         yearRepository.save(year);
     }
 
-    private void createSemestar_Type(String[] metadata) {
+    private void createSemestarType(String[] metadata) {
         String name = metadata[1];
-        Semestar_Type sem = new Semestar_Type(name);
-        semestar_typeRepository.save(sem);
+        SemestarType sem = new SemestarType(name);
+        semestarTypeRepository.save(sem);
     }
 
-    private void createExam_Type(String[] metadata) {
+    private void createExamType(String[] metadata) {
         String name = metadata[1];
-        Exam_Type exam = new Exam_Type(name);
-        exam_typeRepository.save(exam);
+        ExamType exam = new ExamType(name);
+        examTypeRepository.save(exam);
     }
 }

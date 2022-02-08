@@ -1,9 +1,9 @@
 package com.example.backend.repository;
 
-import com.example.backend.model.Exam_Type;
+import com.example.backend.model.ExamType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface Exam_TypeRepository extends JpaRepository<Exam_Type, Long> {
+public interface ExamTypeRepository extends JpaRepository<ExamType, Long> {
 }
