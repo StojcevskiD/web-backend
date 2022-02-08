@@ -1,6 +1,6 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.model.Exam_Type;
+import com.example.backend.model.ExamType;
 import com.example.backend.model.File;
 import com.example.backend.model.Subject;
 import com.example.backend.model.exceptions.FileNotFoundException;
@@ -31,12 +31,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void saveFile(Long id, MultipartFile file, Exam_Type type) {
+    public void saveFile(Long id, MultipartFile file, ExamType type) {
         Subject sub = subjectService.findById(id);
         File newFile = new File();
         newFile.setName(file.getOriginalFilename());
         newFile.setSubject(sub);
-        newFile.setExam_type(type);
+        newFile.setExamType(type);
         try {
             newFile.setContent(file.getBytes());
         } catch (IOException e) {

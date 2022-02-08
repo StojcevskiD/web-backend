@@ -10,19 +10,19 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-public class SemestarType{
-
-    private String name;
+public class SemesterType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     @JsonIgnore
-    @OneToMany (mappedBy = "semestarType")
+    @OneToMany (mappedBy = "semesterType")
     private List<Subject> subjectList;
 
-    public SemestarType(String name) {
+    public SemesterType(String name) {
         this.name = name;
     }
 

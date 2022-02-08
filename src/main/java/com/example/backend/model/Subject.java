@@ -1,7 +1,6 @@
 package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,18 +28,18 @@ public class Subject {
     private List<File> files;
 
     @ManyToOne
-    private SemestarType semestarType;
+    private SemesterType semesterType;
 
 
-    public Subject(String name, SemestarType semestarType, Year year, File file) {
+    public Subject(String name, SemesterType semesterType, Year year, File file) {
         this.name = name;
         this.year = year;
-        this.semestarType = semestarType;
+        this.semesterType = semesterType;
         this.files.add(file);
     }
-    public Subject(String name, SemestarType semestarType, Year year) {
+    public Subject(String name, SemesterType semesterType, Year year) {
         this.name = name;
         this.year = year;
-        this.semestarType = semestarType;
+        this.semesterType = semesterType;
     }
 }

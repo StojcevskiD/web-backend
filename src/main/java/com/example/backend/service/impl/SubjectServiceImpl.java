@@ -1,7 +1,7 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.exceptions.SubjectNotFoundException;
-import com.example.backend.model.SemestarType;
+import com.example.backend.model.exceptions.SubjectNotFoundException;
+import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
 import com.example.backend.repository.SubjectRepository;
@@ -35,8 +35,8 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Subject> findAllSubjectsByYearAndSemestarType(Year year, SemestarType semestarType) {
-        return subjectRepository.findAllByYearAndSemestarType(year, semestarType);
+    public List<Subject> findAllSubjectsByYearAndSemesterType(Year year, SemesterType semesterType) {
+        return subjectRepository.findAllByYearAndSemesterType(year, semesterType);
     }
 
     @Override

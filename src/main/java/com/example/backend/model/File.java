@@ -17,11 +17,12 @@ public class File {
 
     private String name;
 
-    private byte[] content;
-
     @ManyToOne
     private Subject subject;
 
     @ManyToOne
     private ExamType ExamType;
+
+    private byte[] content;
+
 }

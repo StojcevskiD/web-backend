@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 public class Year {
 
-    private String name;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
 
     @JsonIgnore
     @OneToMany (mappedBy = "year")
