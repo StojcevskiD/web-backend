@@ -1,7 +1,9 @@
 package com.example.backend.service.impl;
 
+import com.example.backend.model.Exam_Type;
 import com.example.backend.model.File;
 import com.example.backend.model.Subject;
+import com.example.backend.model.exceptions.FileNotFoundException;
 import com.example.backend.repository.FileRepository;
 import com.example.backend.service.interfaces.FileService;
 import com.example.backend.service.interfaces.SubjectService;
@@ -22,12 +24,19 @@ public class FileServiceImpl implements FileService {
         this.subjectService = subjectService;
     }
 
+
     @Override
-    public void saveFile(Long id, MultipartFile file) {
+    public File getFile(Long id) {
+        return fileRepository.findById(id).orElseThrow(FileNotFoundException::new);
+    }
+
+    @Override
+    public void saveFile(Long id, MultipartFile file, Exam_Type type) {
         Subject sub = subjectService.findById(id);
         File newFile = new File();
         newFile.setName(file.getOriginalFilename());
         newFile.setSubject(sub);
+        newFile.setExam_type(type);
         try {
             newFile.setContent(file.getBytes());
         } catch (IOException e) {
@@ -40,6 +49,12 @@ public class FileServiceImpl implements FileService {
     public List<File> findFilesForSubject(Long id) {
         Subject sub = subjectService.findById(id);
         return fileRepository.findAllBySubject(sub);
+    }
+
+    @Override
+    public void deleteFile(Long id) {
+        File file = this.getFile(id);
+        fileRepository.delete(file);
     }
 }
 
