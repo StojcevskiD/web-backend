@@ -22,4 +22,8 @@ public class Exam_Type {
     @JsonIgnore
     @OneToMany (mappedBy = "exam_type")
     private List<File> files;
+
+    public Exam_Type(String name){
+        this.name=name;
+    }
 }
