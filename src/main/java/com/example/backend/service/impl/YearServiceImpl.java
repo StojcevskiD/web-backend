@@ -1,6 +1,7 @@
 package com.example.backend.service.impl;
 
 import com.example.backend.model.Year;
+import com.example.backend.model.exceptions.YearNotFoundException;
 import com.example.backend.repository.YearRepository;
 import com.example.backend.service.interfaces.YearService;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,11 @@ public class YearServiceImpl implements YearService {
 
     public YearServiceImpl(YearRepository yearRepository) {
         this.yearRepository = yearRepository;
+    }
+
+    @Override
+    public Year getYear(Long id) {
+        return yearRepository.findById(id).orElseThrow(YearNotFoundException::new);
     }
 
     @Override

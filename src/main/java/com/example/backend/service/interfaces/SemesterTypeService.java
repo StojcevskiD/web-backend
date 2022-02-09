@@ -4,4 +4,5 @@ import com.example.backend.model.SemesterType;
 
 public interface SemesterTypeService {
     SemesterType findSemesterTypeByName(String name);
+    SemesterType findById(Long id);
 }

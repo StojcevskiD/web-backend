@@ -12,5 +12,5 @@ public interface SubjectService {
     Subject findById(Long id);
     List<Subject> findAllSubjectsByYear(Year year);
     List<Subject> findAllSubjectsByYearAndSemesterType(Year year, SemesterType SemesterType);
-    List<Subject> findAlSubjectsByName(String name);
+    List<Subject> findAllSubjectsByName(String name);
 }

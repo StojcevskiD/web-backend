@@ -36,25 +36,25 @@ public class SubjectController {
         return subjectService.findById(id);
     }
 
-//    @GetMapping("/{year}")
-//    public List<Subject> getAllSubjectsByYear(@PathVariable String year) {
-//        Year year1 = yearService.findByName(year);
-//        return subjectService.findAllSubjectsByYear(year1);
-//    }
+    @GetMapping("/filter/year")
+    public List<Subject> getAllSubjectsByYear(@RequestParam Long yearId) {
+        Year year = yearService.getYear(yearId);
+            return subjectService.findAllSubjectsByYear(year);
+    }
 
-    @GetMapping("/{godina}/{semestar}")
-    public List<Subject> getAllSubjectsByYearAndSemester(@PathVariable(required = false) String godina, @PathVariable(required = false) String semestar) {
-        if ((godina.equals(" ") || godina.isEmpty()) && (semestar.isEmpty() || semestar.equals(" "))) {
-            return subjectService.allSubjects();
+    @GetMapping("/filter/semester")
+    public List<Subject> getAllSubjectsByYearAndSemester(@RequestParam Long semesterId, @RequestParam Long yearId) {
+        Year year = yearService.getYear(yearId);
+        if (semesterId ==  null) {
+            return subjectService.findAllSubjectsByYear(year);
         } else {
-            Year year = yearService.findByName(godina);
-            SemesterType semesterType = semesterTypeService.findSemesterTypeByName(semestar);
+            SemesterType semesterType = semesterTypeService.findById(semesterId);
             return subjectService.findAllSubjectsByYearAndSemesterType(year, semesterType);
         }
     }
 
     @GetMapping("/search")
-    public List<Subject> searchByName(@RequestParam String searched) {
-        return subjectService.findAlSubjectsByName(searched);
+    public List<Subject> searchByName(@RequestParam String value) {
+        return subjectService.findAllSubjectsByName(value);
     }
 }
