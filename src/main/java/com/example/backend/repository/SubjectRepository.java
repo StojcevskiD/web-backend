@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
     List<Subject> findAllByYear(Year year);
-    List<Subject> findAllByNameLike(String name);
+    List<Subject> findAllByNameContains(String name);
     List<Subject> findAllByYearAndSemesterType(Year year, SemesterType semesterType);
 }

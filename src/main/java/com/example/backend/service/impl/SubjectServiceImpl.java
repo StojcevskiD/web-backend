@@ -40,8 +40,8 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Subject> findAlSubjectsByName(String name) {
-        return subjectRepository.findAllByNameLike(name);
+    public List<Subject> findAllSubjectsByName(String name) {
+        return subjectRepository.findAllByNameContains(name);
     }
 }
 
