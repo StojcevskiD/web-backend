@@ -79,8 +79,8 @@ public class SubjectController {
             throw new InvalidInputException();
         }
 
-        SemesterType semesterType1 = new SemesterType(semesterType);
-        Year year1 = new Year(year);
+        SemesterType semesterType1 =semesterTypeService.findSemesterTypeByName(semesterType);
+        Year year1 = yearService.findByName(year);
         Subject oldSubject = subjectService.findByNameAndYearAndSemesterType(name, year1, semesterType1);
         if (oldSubject != null) {
             return;
