@@ -6,6 +6,9 @@ import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
 import com.example.backend.repository.SubjectRepository;
 import com.example.backend.service.interfaces.SubjectService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +44,24 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public List<Subject> findAllSubjectsByName(String name) {
-        return subjectRepository.findAllByNameContains(name);
+        return subjectRepository.findAllByNameContainsIgnoreCase(name);
+    }
+
+    @Override
+    public Page<Subject> findPaginatedSubjects(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return subjectRepository.findAll(pageable);
+    }
+
+    @Override
+    public Void saveSubject(Subject subject) {
+        subjectRepository.save(subject);
+        return null;
+    }
+
+    @Override
+    public Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType) {
+        return subjectRepository.findByNameAndYearAndSemesterType(name,year,semesterType);
     }
 }
 
