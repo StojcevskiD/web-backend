@@ -4,6 +4,10 @@ import com.example.backend.model.ExamType;
 import com.example.backend.model.File;
 import com.example.backend.service.interfaces.ExamTypeService;
 import com.example.backend.service.interfaces.FileService;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,4 +51,13 @@ public class FileController {
         fileService.deleteFile(id);
     }
 
+    @GetMapping("/downloadFile/{id}")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long id){
+
+        File file = fileService.getFile(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getMimeType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment:filename=\"" + file.getName() + "\"")
+                .body(new ByteArrayResource(file.getContent()));
+    }
 }

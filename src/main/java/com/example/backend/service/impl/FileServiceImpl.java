@@ -37,6 +37,7 @@ public class FileServiceImpl implements FileService {
         newFile.setName(file.getOriginalFilename());
         newFile.setSubject(sub);
         newFile.setExamType(type);
+        newFile.setMimeType(file.getContentType());
         try {
             newFile.setContent(file.getBytes());
         } catch (IOException e) {
