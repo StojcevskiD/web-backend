@@ -4,6 +4,8 @@ import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
 import com.example.backend.model.exceptions.InvalidInputException;
+import com.example.backend.model.exceptions.SubjectAlreadyExistsException;
+import com.example.backend.model.helpers.SubjectHelper;
 import com.example.backend.service.interfaces.SemesterTypeService;
 import com.example.backend.service.interfaces.SubjectService;
 import com.example.backend.service.interfaces.YearService;
@@ -64,8 +66,7 @@ public class SubjectController {
     @GetMapping("/page/{pageNo}/{pageSize}")
     public List<Subject> findPaginated(@PathVariable int pageNo, @PathVariable int pageSize) {
         Page<Subject> page = subjectService.findPaginatedSubjects(pageNo, pageSize);
-        List<Subject> subjects = page.getContent();
-        return subjects;
+        return page.getContent();
     }
 
    @GetMapping("/totalSubjects")
@@ -74,18 +75,13 @@ public class SubjectController {
    }
 
     @PostMapping("/add")
-    public void addSubject(@RequestParam String name, @RequestParam String year, @RequestParam String semesterType) {
-        if (name.isEmpty() || year.isEmpty() || semesterType.isEmpty()) {
-            throw new InvalidInputException();
+    public void addSubject(@RequestBody SubjectHelper subjectHelper) {
+        if(subjectService.findAllSubjectsByName(subjectHelper.getName()).size()!=0){
+            throw new SubjectAlreadyExistsException();
         }
-
-        SemesterType semesterType1 =semesterTypeService.findSemesterTypeByName(semesterType);
-        Year year1 = yearService.findByName(year);
-        Subject oldSubject = subjectService.findByNameAndYearAndSemesterType(name, year1, semesterType1);
-        if (oldSubject != null) {
-            return;
-        }
-        Subject newSubject = new Subject(name, semesterType1, year1);
+        SemesterType semesterType =semesterTypeService.findById(subjectHelper.getSemesterType());
+        Year year = yearService.getYear(subjectHelper.getYear());
+        Subject newSubject = new Subject(subjectHelper.getName(), semesterType, year);
         subjectService.saveSubject(newSubject);
     }
 }

@@ -6,6 +6,8 @@ import com.example.backend.repository.SemesterTypeRepository;
 import com.example.backend.service.interfaces.SemesterTypeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SemesterTypeServiceImpl implements SemesterTypeService {
     private final SemesterTypeRepository semesterTypeRepository;
@@ -22,6 +24,11 @@ public class SemesterTypeServiceImpl implements SemesterTypeService {
     @Override
     public SemesterType findById(Long id) {
         return semesterTypeRepository.findById(id).orElseThrow(SemesterTypeNotFound::new);
+    }
+
+    @Override
+    public List<SemesterType> findAll() {
+        return semesterTypeRepository.findAll();
     }
 
 
