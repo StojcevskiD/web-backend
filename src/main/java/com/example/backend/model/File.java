@@ -23,6 +23,8 @@ public class File {
     @ManyToOne
     private ExamType ExamType;
 
+    private String mimeType;
+
     private byte[] content;
 
 }
