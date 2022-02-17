@@ -41,14 +41,8 @@ public class SubjectController {
         return subjectService.findById(id);
     }
 
-    @GetMapping("/filter/year")
-    public List<Subject> getAllSubjectsByYear(@RequestParam Long yearId) {
-        Year year = yearService.getYear(yearId);
-        return subjectService.findAllSubjectsByYear(year);
-    }
-
     @GetMapping("/filter/semester")
-    public List<Subject> getAllSubjectsByYearAndSemester(@RequestParam Long semesterId, @RequestParam Long yearId) {
+    public List<Subject> getAllSubjectsByYearAndSemester(@RequestParam (required = false) Long semesterId, @RequestParam Long yearId) {
         Year year = yearService.getYear(yearId);
         if (semesterId == null) {
             return subjectService.findAllSubjectsByYear(year);
