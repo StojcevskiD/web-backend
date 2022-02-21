@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -54,14 +55,19 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Void saveSubject(Subject subject) {
+    public void saveSubject(Subject subject) {
         subjectRepository.save(subject);
-        return null;
     }
 
     @Override
     public Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType) {
         return subjectRepository.findByNameAndYearAndSemesterType(name,year,semesterType);
     }
+
+    @Override
+    public Subject findSubjectByName(String name) {
+        return subjectRepository.findSubjectByNameIgnoreCase(name);
+    }
+
 }
 
