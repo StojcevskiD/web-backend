@@ -3,7 +3,6 @@ package com.example.backend.web;
 import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
-import com.example.backend.model.exceptions.InvalidInputException;
 import com.example.backend.model.exceptions.SubjectAlreadyExistsException;
 import com.example.backend.model.helpers.SubjectHelper;
 import com.example.backend.service.interfaces.SemesterTypeService;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @CrossOrigin
 @RestController
@@ -70,7 +68,7 @@ public class SubjectController {
 
     @PostMapping("/add")
     public void addSubject(@RequestBody SubjectHelper subjectHelper) {
-        if(subjectService.findAllSubjectsByName(subjectHelper.getName()).size()!=0){
+        if(subjectService.findSubjectByName(subjectHelper.getName())!=null){
             throw new SubjectAlreadyExistsException();
         }
         SemesterType semesterType =semesterTypeService.findById(subjectHelper.getSemesterType());
