@@ -56,7 +56,7 @@ public class SubjectController {
     }
 
     @GetMapping("/page/{pageNo}/{pageSize}")
-    public List<Subject> findPaginated(@PathVariable int pageNo, @PathVariable int pageSize) {
+    public List<Subject> findPaginated(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         Page<Subject> page = subjectService.findPaginatedSubjects(pageNo, pageSize);
         return page.getContent();
     }
