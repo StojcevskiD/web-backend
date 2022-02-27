@@ -63,5 +63,15 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType) {
         return subjectRepository.findByNameAndYearAndSemesterType(name,year,semesterType);
     }
+
+    @Override
+    public List<Subject> findAllByFullName(String name) {
+        return subjectRepository.findAllByName(name);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        subjectRepository.deleteById(id);
+    }
 }
 
