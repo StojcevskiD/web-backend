@@ -4,7 +4,9 @@ import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
 import com.example.backend.model.exceptions.SubjectAlreadyExistsException;
-import com.example.backend.model.helpers.SubjectHelper;
+import com.example.backend.model.exceptions.SubjectNotFoundException;
+import com.example.backend.model.helpers.SubjectHelperAdd;
+import com.example.backend.model.helpers.SubjectHelperEdit;
 import com.example.backend.service.interfaces.SemesterTypeService;
 import com.example.backend.service.interfaces.SubjectService;
 import com.example.backend.service.interfaces.YearService;
@@ -61,19 +63,38 @@ public class SubjectController {
         return page.getContent();
     }
 
-   @GetMapping("/totalSubjects")
-   public int findNumberOfTotalSubjects(){
+    @GetMapping("/totalSubjects")
+    public int findNumberOfTotalSubjects() {
         return subjectService.allSubjects().size();
-   }
+    }
 
     @PostMapping("/add")
-    public void addSubject(@RequestBody SubjectHelper subjectHelper) {
-        if(subjectService.findSubjectByName(subjectHelper.getName())!=null){
+
+    public void addSubject(@RequestBody SubjectHelperAdd subjectHelper) {
+        if (subjectService.findAllByFullName(subjectHelper.getName()).size() != 0) {
+
             throw new SubjectAlreadyExistsException();
         }
-        SemesterType semesterType =semesterTypeService.findById(subjectHelper.getSemesterType());
+        SemesterType semesterType = semesterTypeService.findById(subjectHelper.getSemesterType());
         Year year = yearService.getYear(subjectHelper.getYear());
         Subject newSubject = new Subject(subjectHelper.getName(), semesterType, year);
         subjectService.saveSubject(newSubject);
+    }
+
+    @PostMapping("/edit")
+    public void editSubject(@RequestBody SubjectHelperEdit subjectHelper) {
+        Subject subject = subjectService.findById(subjectHelper.getId());
+        subject.setName(subjectHelper.getName());
+        Year year = yearService.findByName(subjectHelper.getYear().getName());
+        SemesterType semesterType = semesterTypeService.findSemesterTypeByName(subjectHelper.getSemesterType().getName());
+        subject.setYear(year);
+        subject.setSemesterType(semesterType);
+        subjectService.saveSubject(subject);
+    }
+
+    @GetMapping("/delete/{id}")
+    public void deleteSubject(@PathVariable Long id) {
+        Subject subject = subjectService.findById(id);
+        subjectService.deleteById(id);
     }
 }
