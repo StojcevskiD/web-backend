@@ -6,6 +6,7 @@ import com.example.backend.model.Year;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
@@ -15,4 +16,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType);
     List<Subject> findAllByName(String name);
     void deleteById(Long id);
+    Subject findSubjectByNameIgnoreCase(String name);
+
 }

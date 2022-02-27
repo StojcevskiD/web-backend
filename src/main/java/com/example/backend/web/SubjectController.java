@@ -41,14 +41,8 @@ public class SubjectController {
         return subjectService.findById(id);
     }
 
-    @GetMapping("/filter/year")
-    public List<Subject> getAllSubjectsByYear(@RequestParam Long yearId) {
-        Year year = yearService.getYear(yearId);
-        return subjectService.findAllSubjectsByYear(year);
-    }
-
     @GetMapping("/filter/semester")
-    public List<Subject> getAllSubjectsByYearAndSemester(@RequestParam Long semesterId, @RequestParam Long yearId) {
+    public List<Subject> getAllSubjectsByYearAndSemester(@RequestParam (required = false) Long semesterId, @RequestParam Long yearId) {
         Year year = yearService.getYear(yearId);
         if (semesterId == null) {
             return subjectService.findAllSubjectsByYear(year);
@@ -64,7 +58,7 @@ public class SubjectController {
     }
 
     @GetMapping("/page/{pageNo}/{pageSize}")
-    public List<Subject> findPaginated(@PathVariable int pageNo, @PathVariable int pageSize) {
+    public List<Subject> findPaginated(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         Page<Subject> page = subjectService.findPaginatedSubjects(pageNo, pageSize);
         return page.getContent();
     }
@@ -75,8 +69,10 @@ public class SubjectController {
     }
 
     @PostMapping("/add")
+
     public void addSubject(@RequestBody SubjectHelperAdd subjectHelper) {
         if (subjectService.findAllByFullName(subjectHelper.getName()).size() != 0) {
+
             throw new SubjectAlreadyExistsException();
         }
         SemesterType semesterType = semesterTypeService.findById(subjectHelper.getSemesterType());

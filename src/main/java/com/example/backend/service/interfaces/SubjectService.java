@@ -6,6 +6,7 @@ import com.example.backend.model.Year;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubjectService {
 
@@ -21,11 +22,14 @@ public interface SubjectService {
 
     Page<Subject> findPaginatedSubjects(int pageNo, int pageSize);
 
-    Void saveSubject(Subject subject);
+    void saveSubject(Subject subject);
 
     Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType);
 
     List<Subject> findAllByFullName(String name);
 
     void deleteById(Long id);
+
+    Subject findSubjectByName(String name);
+
 }

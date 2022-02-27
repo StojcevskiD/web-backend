@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -54,9 +55,8 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Void saveSubject(Subject subject) {
+    public void saveSubject(Subject subject) {
         subjectRepository.save(subject);
-        return null;
     }
 
     @Override
@@ -72,6 +72,9 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void deleteById(Long id) {
         subjectRepository.deleteById(id);
+    }
+    public Subject findSubjectByName(String name) {
+        return subjectRepository.findSubjectByNameIgnoreCase(name);
     }
 }
 
