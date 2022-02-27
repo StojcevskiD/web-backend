@@ -14,5 +14,8 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     List<Subject> findAllByNameContainsIgnoreCase(String name);
     List<Subject> findAllByYearAndSemesterType(Year year, SemesterType semesterType);
     Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType);
+    List<Subject> findAllByName(String name);
+    void deleteById(Long id);
     Subject findSubjectByNameIgnoreCase(String name);
+
 }

@@ -36,6 +36,10 @@ public class CSVReader {
 
     public void readSubjectsFromCSV(String fileName) throws IOException {
 
+        if (yearRepository.count() != 0 && subjectRepository.count() != 0 && semesterTypeRepository.count() != 0 && examTypeRepository.count() != 0) {
+            return;
+        }
+
         Path pathToFile = Paths.get(fileName);
 
         // create an instance of BufferedReader

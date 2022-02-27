@@ -26,5 +26,10 @@ public interface SubjectService {
 
     Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType);
 
+    List<Subject> findAllByFullName(String name);
+
+    void deleteById(Long id);
+
     Subject findSubjectByName(String name);
+
 }

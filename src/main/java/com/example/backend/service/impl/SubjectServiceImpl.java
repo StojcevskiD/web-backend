@@ -65,9 +65,16 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<Subject> findAllByFullName(String name) {
+        return subjectRepository.findAllByName(name);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        subjectRepository.deleteById(id);
+    }
     public Subject findSubjectByName(String name) {
         return subjectRepository.findSubjectByNameIgnoreCase(name);
     }
-
 }
 
