@@ -60,11 +60,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject findByNameAndYearAndSemesterType(String name, Year year, SemesterType semesterType) {
-        return subjectRepository.findByNameAndYearAndSemesterType(name,year,semesterType);
-    }
-
-    @Override
     public List<Subject> findAllByFullName(String name) {
         return subjectRepository.findAllByName(name);
     }
@@ -73,8 +68,6 @@ public class SubjectServiceImpl implements SubjectService {
     public void deleteById(Long id) {
         subjectRepository.deleteById(id);
     }
-    public Subject findSubjectByName(String name) {
-        return subjectRepository.findSubjectByNameIgnoreCase(name);
-    }
+
 }
 
