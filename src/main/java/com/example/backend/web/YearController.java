@@ -18,8 +18,13 @@ public class YearController {
     }
 
     @GetMapping("/all")
-    public List<Year> getAllSubjects(){
+    public List<Year> getAllYears(){
         return yearService.allYears();
+    }
+
+    @GetMapping("/{id}")
+    public Year getYear(@PathVariable Long id){
+        return yearService.getYear(id);
     }
 
 }
