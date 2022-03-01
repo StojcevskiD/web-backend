@@ -2,12 +2,8 @@ package com.example.backend.web;
 
 
 import com.example.backend.model.SemesterType;
-import com.example.backend.model.Year;
 import com.example.backend.service.interfaces.SemesterTypeService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +21,10 @@ public class SemesterTypeController {
     @GetMapping("/all")
     public List<SemesterType> getAllSemesterTypes(){
         return semesterTypeService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public SemesterType getSemesterType(@PathVariable Long id){
+        return semesterTypeService.findById(id);
     }
 }

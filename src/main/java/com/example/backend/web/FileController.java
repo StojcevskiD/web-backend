@@ -60,4 +60,15 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment:filename=\"" + file.getName() + "\"")
                 .body(new ByteArrayResource(file.getContent()));
     }
+
+    @GetMapping("/openFile/{id}")
+    public ResponseEntity<ByteArrayResource> openFile(@PathVariable Long id){
+
+        File file = fileService.getFile(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getMimeType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline:filename=\"" + file.getName() + "\"")
+                .body(new ByteArrayResource(file.getContent()));
+    }
+
 }
