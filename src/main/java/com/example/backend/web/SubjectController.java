@@ -4,7 +4,6 @@ import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
 import com.example.backend.model.exceptions.SubjectAlreadyExistsException;
-import com.example.backend.model.exceptions.SubjectNotFoundException;
 import com.example.backend.model.helpers.SubjectHelperAdd;
 import com.example.backend.model.helpers.SubjectHelperEdit;
 import com.example.backend.service.interfaces.SemesterTypeService;
@@ -12,7 +11,10 @@ import com.example.backend.service.interfaces.SubjectService;
 import com.example.backend.service.interfaces.YearService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 @CrossOrigin
@@ -69,7 +71,6 @@ public class SubjectController {
     }
 
     @PostMapping("/add")
-
     public void addSubject(@RequestBody SubjectHelperAdd subjectHelper) {
         if (subjectService.findAllByFullName(subjectHelper.getName()).size() != 0) {
 
@@ -96,5 +97,13 @@ public class SubjectController {
     public void deleteSubject(@PathVariable Long id) {
         Subject subject = subjectService.findById(id);
         subjectService.deleteById(id);
+    }
+
+    @GetMapping("/image")
+    public void image(@RequestParam MultipartFile image){
+        BufferedImage myPicture = (BufferedImage) image;
+
+        Graphics2D g = (Graphics2D) myPicture.getGraphics();
+        
     }
 }

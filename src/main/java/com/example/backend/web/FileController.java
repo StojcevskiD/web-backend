@@ -27,11 +27,13 @@ public class FileController {
     }
 
     @GetMapping("/get/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public File getFile(@PathVariable Long id){
         return fileService.getFile(id);
     }
 
     @GetMapping("/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<File> filesForSubject(@PathVariable Long id){
         return fileService.findFilesForSubject(id);
     }

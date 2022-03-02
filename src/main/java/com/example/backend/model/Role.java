@@ -1,13 +1,15 @@
-//package com.example.backend.model;
-//
-//// implements GrantedAuthority koga ke ima spring security
-//public enum Role {
-//
-//    ROLE_USER, ROLE_ADMIN;
-//}
-////    @Override
-////    public String getAuthority() {
-////        return name();
-////    }
-//
+package com.example.backend.model;
+
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
+
+    ROLE_USER, ROLE_ADMIN;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
+}
+
 
