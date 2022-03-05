@@ -1,6 +1,8 @@
 package com.example.backend.service.interfaces;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.example.backend.model.User;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
+    User findUserByEmail (String email);
+    void register(String email, String password, String username);
 }
