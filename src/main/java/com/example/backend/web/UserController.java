@@ -61,4 +61,15 @@ public class UserController {
     public void logout(HttpServletRequest request){
         request.getSession().invalidate();
     }
+
+    @PostMapping("/reset/password")
+    public void resetPassword(@RequestHeader String email){
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Ресетирај ја лозинката!");
+        mailMessage.setFrom("dimitar.stojcevski1@gmail.com");
+        mailMessage.setText("Кликнете на следниот линк за да ја ресетирате вашата лозинка:");
+
+        javaMailSender.send(mailMessage);
+    }
 }

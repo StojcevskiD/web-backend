@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService {
         User user = new User(email, passwordEncoder.encode(password), username);
         userRepository.save(user);
     }
+
+    @Override
+    public void resetPassword(String password) {
+
+    }
 }
