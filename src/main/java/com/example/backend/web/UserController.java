@@ -47,13 +47,13 @@ public class UserController {
         if (user != null) {
             throw new EmailAlreadyExistsException();
         }
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(email);
-        mailMessage.setSubject("Комплетирај ја регистрацијата!");
-        mailMessage.setFrom("dimitar.stojcevski1@gmail.com");
-        mailMessage.setText("Кликнете на следниот линк за да ја потврдите вашата регистрација:");
-
-        javaMailSender.send(mailMessage);
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(email);
+//        mailMessage.setSubject("Комплетирај ја регистрацијата!");
+//        mailMessage.setFrom("dimitar.stojcevski1@gmail.com");
+//        mailMessage.setText("Кликнете на следниот линк за да ја потврдите вашата регистрација:");
+//
+//        javaMailSender.send(mailMessage);
         userService.register(email, password, helper.getUsername());
     }
 
