@@ -1,15 +1,26 @@
 package com.example.backend.model;
 
-import org.springframework.security.core.GrantedAuthority;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public enum Role implements GrantedAuthority {
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
-    ROLE_USER, ROLE_ADMIN;
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 
-    @Override
-    public String getAuthority() {
-        return name();
-    }
+@Getter
+@Setter
+public class Role extends BaseEntity {
+
+    private String name;
+
+    private String label;
+
+    @Column(name = "label_sq")
+    private String labelSq;
+
 }
-
-

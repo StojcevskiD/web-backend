@@ -2,7 +2,6 @@ package com.example.backend.web;
 
 import com.example.backend.model.User;
 import com.example.backend.model.exceptions.EmailAlreadyExistsException;
-import com.example.backend.model.helpers.LoginHelper;
 import com.example.backend.model.helpers.UserRegisterHelper;
 import com.example.backend.service.interfaces.AuthService;
 import com.example.backend.service.interfaces.UserService;
@@ -28,15 +27,15 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public User login(HttpServletRequest request, @RequestBody LoginHelper loginHelper) {
-        System.out.println("email: " + loginHelper.getEmail());
-        System.out.println("password: " + loginHelper.getPassword());
-        User user = authService.login(loginHelper.getEmail(), loginHelper.getPassword());
-//        request.getSession().setAttribute("user", user);
-
-        return user;
-    }
+//    @PostMapping("/login")
+//    public User login(HttpServletRequest request, @RequestBody LoginHelper loginHelper) {
+//        System.out.println("email: " + loginHelper.getEmail());
+//        System.out.println("password: " + loginHelper.getPassword());
+//        User user = authService.login(loginHelper.getEmail(), loginHelper.getPassword());
+////        request.getSession().setAttribute("user", user);
+//
+//        return user;
+//    }
 
     @PostMapping("/register")
     public void register(@RequestHeader String email,
