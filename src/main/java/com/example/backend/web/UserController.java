@@ -1,6 +1,7 @@
 package com.example.backend.web;
 
 import com.example.backend.model.User;
+import com.example.backend.model.dto.UserDetailsDto;
 import com.example.backend.model.exceptions.EmailAlreadyExistsException;
 import com.example.backend.model.helpers.UserRegisterHelper;
 import com.example.backend.service.interfaces.UserService;
@@ -57,5 +58,11 @@ public class UserController {
         mailMessage.setText("Кликнете на следниот линк за да ја ресетирате вашата лозинка:");
 
         javaMailSender.send(mailMessage);
+    }
+
+    @GetMapping("/details")
+    @PreAuthorize("isAuthenticated()")
+    public UserDetailsDto userDetails(){
+        return userService.getUserDetails();
     }
 }

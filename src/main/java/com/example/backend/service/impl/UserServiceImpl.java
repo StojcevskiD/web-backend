@@ -3,13 +3,17 @@ package com.example.backend.service.impl;
 import com.example.backend.model.Role;
 import com.example.backend.model.User;
 import com.example.backend.model.UserRoles;
+import com.example.backend.model.dto.UserDetailsDto;
 import com.example.backend.model.helpers.UserRegisterHelper;
 import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.repository.UserRoleRepository;
 import com.example.backend.service.interfaces.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -59,14 +63,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return passwordEncoder.matches(password, user.getPassword());
     }
 
+    @Override
+    public UserDetailsDto getUserDetails() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        String email = authentication.getPrincipal().toString();
+        User user = userRepository.findByEmail(email);
+
+        UserDetailsDto userDetailsDto = new UserDetailsDto();
+        userDetailsDto.setUsername(user.getUsername());
+        userDetailsDto.setEmail(user.getEmail());
+
+        List<UserRoles> roles = user.getRoles();
+        List<String> userRoleNames = new ArrayList<>();
+        for(UserRoles role : roles){
+            userRoleNames.add(role.getRole().getName());
+        }
+        userDetailsDto.setRoles(userRoleNames);
+
+        return userDetailsDto;
+
+    }
+
 //    @Override
 //    public void resetPassword(String password) {
 //
-//    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return userRepository.findByUsername(username);
 //    }
 
     @Override
