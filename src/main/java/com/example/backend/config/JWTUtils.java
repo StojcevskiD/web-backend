@@ -30,16 +30,12 @@ public class JWTUtils {
 
     public List<GrantedAuthority> addAuthoritiesFromRoles(User user, String password) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-//        if (user.getActive()) {
             if (!userService.passwordMatches(user, password)) {
                 throw new PasswordDoNotMatchException();
             }
             for (var role : user.getRoles()) {
                 authorities.add(new SimpleGrantedAuthority(role.getRole().getName()));
             }
-//        } else {
-//            throw new UserNotEnabledException();
-//        }
 
         return authorities;
     }

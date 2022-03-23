@@ -45,7 +45,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(JwtAuthConstants.HEADER_STRING);
         if (token != null) {
 
-            String email = JWT.require(Algorithm.HMAC256(JwtAuthConstants.SECRET.getBytes()))
+            String email = JWT.require(Algorithm.HMAC512(JwtAuthConstants.SECRET.getBytes()))
                     .build()
                     .verify(token.replace(JwtAuthConstants.TOKEN_PREFIX, ""))
                     .getSubject();

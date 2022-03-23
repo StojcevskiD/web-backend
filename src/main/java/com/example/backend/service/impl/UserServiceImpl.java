@@ -3,15 +3,25 @@ package com.example.backend.service.impl;
 import com.example.backend.model.Role;
 import com.example.backend.model.User;
 import com.example.backend.model.UserRoles;
+import com.example.backend.model.helpers.UserRegisterHelper;
 import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.repository.UserRoleRepository;
 import com.example.backend.service.interfaces.UserService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -31,16 +41,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(String email, String password, String username) {
+    public void register(String email, String password, UserRegisterHelper helper) {
 
-        User user = new User(email, passwordEncoder.encode(password), username);
+        User user = new User(email, passwordEncoder.encode(password), helper.getUsername(), helper.getName(),
+                helper.getSurname(),  helper.getAddress(), helper.getPhone(), LocalDateTime.now());
         userRepository.save(user);
+
         UserRoles userRole = new UserRoles();
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_USER");
         userRole.setUser(user);
         userRole.setRole(role);
         userRoleRepository.save(userRole);
-//        return user;
     }
 
     @Override
@@ -57,4 +68,16 @@ public class UserServiceImpl implements UserService {
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        return userRepository.findByUsername(username);
 //    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.findUserByEmail(email);
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (var role : user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole().getName()));
+        }
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+    }
 }

@@ -42,23 +42,39 @@ alter table public.exam_type
 
 create table if not exists auth_user.users
 (
-    "id"           bigserial not null,
-    "email"        text,
-    "password"     text,
-    "date_created" timestamp with time zone,
-    "role_id"      bigint,
-    primary key ("id"),
-    unique ("email")
+    id           bigserial
+        primary key,
+    address      varchar(255),
+    date_created date,
+    email        varchar(255) unique,
+    name         varchar(255),
+    password     varchar(255),
+    phone        varchar(255),
+    surname      varchar(255),
+    username     varchar(255)
 );
 alter table auth_user.users
     owner to postgres;
 
+create table if not exists auth_user.roles
+(
+    id   bigserial
+        primary key,
+    name varchar(255)
+);
+alter table auth_user.roles
+    owner to postgres;
+
 create table if not exists auth_user.user_roles
 (
-    "id"   bigserial not null,
-    "name" text,
-    primary key ("id"),
-    unique ("name")
+    id      bigserial
+        primary key,
+    role_id bigint
+        constraint fkrhfovtciq1l558cw6udg0h0d3
+            references auth_user.roles,
+    user_id bigint
+        constraint fkhfh9dx7w3ubf1co1vdev94g3f
+            references auth_user.users
 );
 alter table auth_user.user_roles
     owner to postgres;

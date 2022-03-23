@@ -46,10 +46,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             String email = emailPassword[0];
 
-            if (email != null) {
-                email = email.toLowerCase();
-            }
-
             String password = emailPassword[1];
             User user = userService.findUserByEmail(email);
             List<GrantedAuthority> authorities = jwtUtils.addAuthoritiesFromRoles(user, password);

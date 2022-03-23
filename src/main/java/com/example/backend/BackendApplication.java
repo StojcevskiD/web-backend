@@ -20,11 +20,6 @@ public class BackendApplication {
     }
 
 //    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder(10);
-//    }
-
-//    @Bean
 //    public MultipartConfigElement multipartConfigElement() {
 //        MultipartConfigFactory factory = new MultipartConfigFactory();
 //        //Largest file

@@ -4,12 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users", schema = "auth_user")
 public class User {
 
     @Id
@@ -22,37 +23,29 @@ public class User {
 
     private String username;
 
+    private String name;
+
+    private String surname;
+
+    private String address;
+
+    private String phone;
+
+    private LocalDateTime date_created;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRoles> roles;
 
-    private boolean isAccountNonExpired = true;
-    private boolean isAccountNonLocked = true;
-    private boolean isCredentialsNonExpired = true;
-    private boolean isEnabled = true;
 
-    public User(String email, String password, String username) {
+    public User(String email, String password, String username, String name, String surname, String address,
+                String phone, LocalDateTime date_created) {
         this.email = email;
         this.password = password;
         this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.phone = phone;
+        this.date_created = date_created;
     }
-
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return isAccountNonExpired;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return isAccountNonLocked;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return isCredentialsNonExpired;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return isEnabled;
-//    }
 }
