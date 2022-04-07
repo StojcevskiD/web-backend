@@ -4,18 +4,17 @@ import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
 import com.example.backend.model.exceptions.SubjectAlreadyExistsException;
-import com.example.backend.model.exceptions.SubjectNotFoundException;
 import com.example.backend.model.helpers.SubjectHelperAdd;
 import com.example.backend.model.helpers.SubjectHelperEdit;
 import com.example.backend.service.interfaces.SemesterTypeService;
 import com.example.backend.service.interfaces.SubjectService;
 import com.example.backend.service.interfaces.YearService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/subject")
 public class SubjectController {
@@ -24,7 +23,6 @@ public class SubjectController {
     private final YearService yearService;
     private final SemesterTypeService semesterTypeService;
 
-    //    @Autowired
     public SubjectController(SubjectService subjectService, YearService yearService, SemesterTypeService semesterTypeService) {
         this.subjectService = subjectService;
         this.yearService = yearService;
@@ -69,7 +67,7 @@ public class SubjectController {
     }
 
     @PostMapping("/add")
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void addSubject(@RequestBody SubjectHelperAdd subjectHelper) {
         if (subjectService.findAllByFullName(subjectHelper.getName()).size() != 0) {
 
@@ -82,6 +80,7 @@ public class SubjectController {
     }
 
     @PostMapping("/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void editSubject(@RequestBody SubjectHelperEdit subjectHelper) {
         Subject subject = subjectService.findById(subjectHelper.getId());
         subject.setName(subjectHelper.getName());
@@ -93,8 +92,16 @@ public class SubjectController {
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteSubject(@PathVariable Long id) {
-        Subject subject = subjectService.findById(id);
         subjectService.deleteById(id);
     }
+
+//    @GetMapping("/image")
+//    public void image(@RequestParam MultipartFile image){
+//        BufferedImage myPicture = (BufferedImage) image;
+//
+//        Graphics2D g = (Graphics2D) myPicture.getGraphics();
+//
+//    }
 }
