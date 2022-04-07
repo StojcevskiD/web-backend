@@ -1,5 +1,5 @@
 create
-or replace function create_user_if_not_exists(_email text, _password text, _role text, _name text, _surname text, _phone text, _address) returns void as
+or replace function create_user_if_not_exists(_email text, _password text, _role text, _name text, _surname text, _phone text, _address text) returns void as
 $$
 
 begin
@@ -8,7 +8,7 @@ not exists(select id from auth_user.users where email = _email) then
         insert into auth_user.users(email, password, date_created, name, surname, username, phone, address)
         values (_email, _password, now(), _name, _surname, _name, _phone, _address);
 insert into auth_user.user_roles(role_id, user_id)
-values (find_role_id_by_name(_ role), find_user_id_by_email(_email));
+values (find_role_id_by_name(_role), find_user_id_by_email(_email));
 end if;
 end;
 
