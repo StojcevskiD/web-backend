@@ -44,12 +44,10 @@ create table if not exists auth_user.users
 (
     id           bigserial
         primary key,
-    address      varchar(255),
     date_created date,
     email        varchar(255) unique,
     name         varchar(255),
     password     varchar(255),
-    phone        varchar(255),
     surname      varchar(255),
     username     varchar(255)
 );
