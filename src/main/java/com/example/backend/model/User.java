@@ -27,25 +27,18 @@ public class User {
 
     private String surname;
 
-    private String address;
-
-    private String phone;
-
     private LocalDateTime date_created;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRoles> roles;
 
 
-    public User(String email, String password, String username, String name, String surname, String address,
-                String phone, LocalDateTime date_created) {
+    public User(String email, String password, String username, String name, String surname, LocalDateTime date_created) {
         this.email = email;
         this.password = password;
         this.username = username;
         this.name = name;
         this.surname = surname;
-        this.address = address;
-        this.phone = phone;
         this.date_created = date_created;
     }
 }

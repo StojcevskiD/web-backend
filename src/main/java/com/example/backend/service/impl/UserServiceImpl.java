@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void register(String email, String password, UserRegisterHelper helper) {
 
         User user = new User(email, passwordEncoder.encode(password), helper.getUsername(), helper.getName(),
-                helper.getSurname(),  helper.getAddress(), helper.getPhone(), LocalDateTime.now());
+                helper.getSurname(), LocalDateTime.now());
         userRepository.save(user);
 
         UserRoles userRole = new UserRoles();
