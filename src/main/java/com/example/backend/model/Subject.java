@@ -30,6 +30,10 @@ public class Subject {
     @ManyToOne
     private SemesterType semesterType;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "favoriteSubjects", fetch = FetchType.EAGER)
+    private List<User> usersSubject;
+
 
     public Subject(String name, SemesterType semesterType, Year year, File file) {
         this.name = name;
