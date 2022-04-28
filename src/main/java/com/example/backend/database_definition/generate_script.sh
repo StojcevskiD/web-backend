@@ -1,7 +1,6 @@
 #!/bin/bash
 cat \
 "scripts/create_schemas.sql" \
-"creating_table.sql" \
 "scripts/functions.sql" \
 "scripts/initialize_roles.sql" \
 "scripts/initialize_users.sql" \
