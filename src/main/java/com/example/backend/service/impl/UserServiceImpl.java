@@ -1,9 +1,11 @@
 package com.example.backend.service.impl;
 
 import com.example.backend.model.Role;
+import com.example.backend.model.Subject;
 import com.example.backend.model.User;
 import com.example.backend.model.UserRoles;
 import com.example.backend.model.dto.UserDetailsDto;
+import com.example.backend.model.exceptions.UserNotFoundException;
 import com.example.backend.model.helpers.UserRegisterHelper;
 import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.UserRepository;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -73,6 +76,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UserDetailsDto userDetailsDto = new UserDetailsDto();
         userDetailsDto.setUsername(user.getUsername());
         userDetailsDto.setEmail(user.getEmail());
+        userDetailsDto.setId(user.getId());
 
         List<UserRoles> roles = user.getRoles();
         List<String> userRoleNames = new ArrayList<>();
@@ -100,5 +104,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+    }
+
+    @Override
+    public User findById(Long id){
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public void takeSubject(User user, Subject subject) {
+        List<Subject> subjects=user.getFavoriteSubjects();
+        if(!subjects.contains(subject)) {
+            subjects.add(subject);
+            user.setFavoriteSubjects(subjects);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void removeSubject(User user, Subject subject) {
+        List<Subject> subjects=user.getFavoriteSubjects();
+        subjects.stream().filter(s -> s.equals(subject)).findFirst().map(i -> subjects.remove(i));
+        user.setFavoriteSubjects(subjects);
+        userRepository.save(user);
     }
 }

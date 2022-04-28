@@ -1,5 +1,7 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+//@AllArgsConstructor
 @Table(name = "users", schema = "auth_user")
 public class User {
 
@@ -32,6 +35,8 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRoles> roles;
 
+    @ManyToMany
+    private List<Subject> favoriteSubjects;
 
     public User(String email, String password, String username, String name, String surname, LocalDateTime date_created) {
         this.email = email;
