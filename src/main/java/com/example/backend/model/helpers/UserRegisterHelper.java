@@ -7,4 +7,5 @@ public class UserRegisterHelper {
     private String username;
     private String name;
     private String surname;
+    private String token;
 }

@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import com.example.backend.model.ConfirmationToken;
 import com.example.backend.model.Role;
 import com.example.backend.model.User;
 import com.example.backend.model.UserRoles;
@@ -8,6 +9,7 @@ import com.example.backend.model.helpers.UserRegisterHelper;
 import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.repository.UserRoleRepository;
+import com.example.backend.service.interfaces.ConfirmationTokenService;
 import com.example.backend.service.interfaces.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,12 +33,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
+
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository, UserRoleRepository userRoleRepository, ConfirmationTokenService confirmationTokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.userRoleRepository = userRoleRepository;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Override
@@ -56,6 +61,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRole.setUser(user);
         userRole.setRole(role);
         userRoleRepository.save(userRole);
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(user, helper.getToken());
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
     }
 
     @Override
@@ -83,6 +91,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return userDetailsDto;
 
+    }
+
+    @Override
+    public void makeEnabled(ConfirmationToken confirmationToken) {
+        User user = confirmationToken.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
+        confirmationTokenService.deleteTokensOfUser(user.getId());
     }
 
 //    @Override

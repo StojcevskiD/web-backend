@@ -2,6 +2,7 @@ package com.example.backend.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,6 +33,11 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRoles> roles;
 
+    @OneToMany(mappedBy = "user")
+    private List<ConfirmationToken> tokens;
+
+    private boolean enabled ;
+
 
     public User(String email, String password, String username, String name, String surname, LocalDateTime date_created) {
         this.email = email;
@@ -40,5 +46,6 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.date_created = date_created;
+        this.enabled = false;
     }
 }
