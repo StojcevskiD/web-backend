@@ -3,6 +3,8 @@ package com.example.backend.service.interfaces;
 import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
+import com.example.backend.model.helpers.SubjectHelperAdd;
+import com.example.backend.model.helpers.SubjectHelperEdit;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -22,10 +24,12 @@ public interface SubjectService {
 
     Page<Subject> findPaginatedSubjects(int pageNo, int pageSize);
 
-    void saveSubject(Subject subject);
+    void addSubject(SubjectHelperAdd subjectHelper);
 
     List<Subject> findAllByFullName(String name);
 
     void deleteById(Long id);
+
+    void editSubject(SubjectHelperEdit subjectHelperEdit);
 
 }
