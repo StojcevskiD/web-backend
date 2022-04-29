@@ -73,22 +73,13 @@ public class SubjectController {
 
             throw new SubjectAlreadyExistsException();
         }
-        SemesterType semesterType = semesterTypeService.findById(subjectHelper.getSemesterType());
-        Year year = yearService.getYear(subjectHelper.getYear());
-        Subject newSubject = new Subject(subjectHelper.getName(), semesterType, year);
-        subjectService.saveSubject(newSubject);
+        subjectService.addSubject(subjectHelper);
     }
 
     @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void editSubject(@RequestBody SubjectHelperEdit subjectHelper) {
-        Subject subject = subjectService.findById(subjectHelper.getId());
-        subject.setName(subjectHelper.getName());
-        Year year = yearService.findByName(subjectHelper.getYear().getName());
-        SemesterType semesterType = semesterTypeService.findSemesterTypeByName(subjectHelper.getSemesterType().getName());
-        subject.setYear(year);
-        subject.setSemesterType(semesterType);
-        subjectService.saveSubject(subject);
+        subjectService.editSubject(subjectHelper);
     }
 
     @GetMapping("/delete/{id}")
