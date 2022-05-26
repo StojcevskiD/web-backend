@@ -4,8 +4,12 @@ import com.example.backend.model.exceptions.SubjectNotFoundException;
 import com.example.backend.model.SemesterType;
 import com.example.backend.model.Subject;
 import com.example.backend.model.Year;
+import com.example.backend.model.helpers.SubjectHelperAdd;
+import com.example.backend.model.helpers.SubjectHelperEdit;
 import com.example.backend.repository.SubjectRepository;
+import com.example.backend.service.interfaces.SemesterTypeService;
 import com.example.backend.service.interfaces.SubjectService;
+import com.example.backend.service.interfaces.YearService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +22,13 @@ import java.util.Optional;
 public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final SemesterTypeService semesterTypeService;
+    private final YearService yearService;
 
-    public SubjectServiceImpl(SubjectRepository subjectRepository) {
+    public SubjectServiceImpl(SubjectRepository subjectRepository, SemesterTypeService semesterTypeService, YearService yearService) {
         this.subjectRepository = subjectRepository;
+        this.semesterTypeService = semesterTypeService;
+        this.yearService = yearService;
     }
 
     @Override
@@ -55,8 +63,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void saveSubject(Subject subject) {
-        subjectRepository.save(subject);
+    public void addSubject(SubjectHelperAdd subjectHelper) {
+        SemesterType semesterType = semesterTypeService.findById(subjectHelper.getSemesterType());
+        Year year = yearService.getYear(subjectHelper.getYear());
+        Subject newSubject = new Subject(subjectHelper.getName(), semesterType, year);
+        subjectRepository.save(newSubject);
     }
 
     @Override
@@ -69,5 +80,15 @@ public class SubjectServiceImpl implements SubjectService {
         subjectRepository.deleteById(id);
     }
 
+    @Override
+    public void editSubject(SubjectHelperEdit subjectHelperEdit) {
+        Subject subject = subjectRepository.findById(subjectHelperEdit.getId()).orElseThrow(SubjectNotFoundException ::new);
+        subject.setName(subjectHelperEdit.getName());
+        Year year = yearService.findByName(subjectHelperEdit.getYear().getName());
+        SemesterType semesterType = semesterTypeService.findSemesterTypeByName(subjectHelperEdit.getSemesterType().getName());
+        subject.setYear(year);
+        subject.setSemesterType(semesterType);
+        subjectRepository.save(subject);
+    }
 }
 
